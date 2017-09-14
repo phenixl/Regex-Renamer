@@ -1,5 +1,6 @@
 ﻿Imports System.Text.RegularExpressions
 
+
 Module MainModule
 
     'process args	
@@ -22,7 +23,7 @@ Module MainModule
     Sub Main()
         Dim Args() As String = Environment.GetCommandLineArgs
         If Args.Length < 3 Then
-            Print("missing parameters! quit" & vbCrLf)
+            'Print("missing parameters! quit" & vbCrLf)
             PrintHelp()
         End If
 
@@ -58,14 +59,11 @@ Module MainModule
 
 
         'create regex obj
-        If IsIgnoreCase Then
-            options = RegexOptions.IgnoreCase
-        End If
-
+        If IsIgnoreCase Then options = RegexOptions.IgnoreCase
 
         Dim r As String() = System.IO.Directory.GetFiles(CurrentPath)
 
-        'create undo class
+        'create undo obj
         UndoBatObj = New Undo(UndoFilename)
 
 
@@ -122,11 +120,12 @@ Module MainModule
                 'output formating
                 Dim tmp As String
                 If f1.Length > 30 Then
-                    tmp = Left(f1, 8) & "..." & Right(f1, 19)
+                    'tmp = Left(f1, 8) & "..." & Right(f1, 19)
+                    tmp = Left(f1, 3) & "..." & Right(f1, 24)
                 Else
                     tmp = f1.PadRight(30 - f1.Length)
                 End If
-                Print(tmp & "	-> " & NewName)
+                Print(tmp & " -> " & NewName)
             End If
 
             If IsModiflied Then 'write undo batch
@@ -212,6 +211,10 @@ Module MainModule
         Print("  /q		quiet mode (dosn't output undo file and prompt")
         Print("  /d		rename directorys only, excluded /f option")
         Print("  /f		rename files only")
+
+        Print("")
+        Print(System.Reflection.Assembly.GetCallingAssembly.GetName.FullName)
+
         End
     End Sub
 

@@ -17,3 +17,4 @@ E:\Console\rren.application
 E:\Console\rren.exe
 E:\Console\rren.pdb
 E:\Console\rren.xml
+E:\release\rren.exe.config
