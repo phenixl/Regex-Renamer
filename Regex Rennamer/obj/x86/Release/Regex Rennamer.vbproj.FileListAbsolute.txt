@@ -1,0 +1,19 @@
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\obj\x86\Release\PHX.Resources.resources
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\obj\x86\Release\Regex Rennamer.vbproj.GenerateResource.Cache
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\bin\Release\rren.exe.config
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\bin\Release\rren.exe
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\bin\Release\rren.pdb
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\bin\Release\rren.xml
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\obj\x86\Release\rren.exe
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\obj\x86\Release\rren.xml
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\obj\x86\Release\rren.pdb
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\bin\Release\rren.exe.manifest
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\bin\Release\rren.application
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\obj\x86\Release\rren.exe.manifest
+E:\Visual Studio 2010\Regex Rennamer\Regex Rennamer\obj\x86\Release\rren.application
+E:\Console\rren.exe.config
+E:\Console\rren.exe.manifest
+E:\Console\rren.application
+E:\Console\rren.exe
+E:\Console\rren.pdb
+E:\Console\rren.xml
