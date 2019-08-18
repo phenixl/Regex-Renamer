@@ -66,9 +66,9 @@ Module MainModule
         UndoBatObj = New Undo(UndoFilename)
 
 
-        If IsDirOnly Then
+        If IsDirOnly And Not IsFileOnly Then
             ProcessRename(System.IO.Directory.GetDirectories(CurrentPath))
-        ElseIf IsFileOnly Then
+        ElseIf IsFileOnly And Not IsDirOnly Then
             ProcessRename(System.IO.Directory.GetFiles(CurrentPath))
         Else
             Dim dirs, files As String()
@@ -205,10 +205,10 @@ Module MainModule
         Print("  match		匹配正则表达式模板")
         Print("  replace	被替换正则表达式模板")
         Print("  /i		ignore case")
-        Print("  /p		preview change")
-        Print("  /e		included files/directorys extend name")
-        Print("  /q		quiet mode (dosn't output undo file and prompt")
-        Print("  /d		rename directorys only, excluded /f option")
+        Print("  /p		preview changes only")
+        Print("  /e		included file's ext")
+        Print("  /q		quiet mode (doesn't output undo file and prompt")
+        Print("  /d		rename directories only")
         Print("  /f		rename files only")
 
         Print("")
