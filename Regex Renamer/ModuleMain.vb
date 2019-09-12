@@ -4,10 +4,10 @@
 Module MainModule
 
     'process args	
-    Dim IsQuiet As Boolean
     Dim MatchPattern As String
     Dim ReplacePattern As String
-
+    'option flags
+    Dim IsQuiet As Boolean
     Dim IsPreview As Boolean = False
     Dim IsIgnoreCase As Boolean = False
     Dim IsIncExt As Boolean = False
@@ -17,13 +17,16 @@ Module MainModule
     Dim CurrentPath As String = System.IO.Directory.GetCurrentDirectory()
     Dim options As RegexOptions
 
-    Dim UndoFilename As String = "rren_undo.bat"
-    Dim UndoBatObj As Undo
+
+
 
     Sub Main()
+
+        Dim UndoFilename As String = "rren_undo.bat"
+        Dim UndoBatObj As Undo
+
         Dim Args() As String = Environment.GetCommandLineArgs
         If Args.Length < 3 Then
-            'Print("missing parameters! quit" & vbCrLf)
             PrintHelp()
         End If
 
@@ -67,21 +70,24 @@ Module MainModule
 
 
         If IsDirOnly And Not IsFileOnly Then
-            ProcessRename(System.IO.Directory.GetDirectories(CurrentPath))
+            ProcessRename(System.IO.Directory.GetDirectories(CurrentPath), UndoBatObj)
         ElseIf IsFileOnly And Not IsDirOnly Then
-            ProcessRename(System.IO.Directory.GetFiles(CurrentPath))
+            ProcessRename(System.IO.Directory.GetFiles(CurrentPath), UndoBatObj)
         Else
             Dim dirs, files As String()
             files = System.IO.Directory.GetFiles(CurrentPath)
             dirs = System.IO.Directory.GetDirectories(CurrentPath)
-            Array.Copy(dirs, files, dirs.Length)
-            ProcessRename(files)
-        End If
 
+            'join arrays so that to genrate single undo.bat & could output the right summary report
+            Dim newarray(dirs.Length + files.Length - 1) As String
+            Array.Copy(dirs, newarray, dirs.Length)
+            Array.Copy(files, 0, newarray, dirs.Length, files.Length)
+            ProcessRename(newarray, UndoBatObj)
+        End If
 
     End Sub
 
-    Sub ProcessRename(ByVal procQueue As String())
+    Private Sub ProcessRename(ByVal procQueue As String(), ByRef undoOjb As Undo)
 
         Dim modFilecounter As Integer = 0
 
@@ -128,39 +134,41 @@ Module MainModule
             End If
 
             If IsModiflied Then 'write undo batch
-                UndoBatObj.writeline("ren """ & NewName & """ """ & OldName & """")
+                undoOjb.writeline("ren """ & NewName & """ """ & OldName & """")
                 modFilecounter += 1
             End If
 
         Next
 
-        If modFilecounter > 0 Then
-            Print(modFilecounter & " files renname successful.")
-            If Not (IsQuiet Or IsPreview) Then
-                Dim objundo As New Undo(UndoFilename)
-            End If
+        If IsPreview Then
+            Print("======================")
+            Print("Priview only, nothing was changed")
         Else
-            Print("nothing match, exiting")
+            If modFilecounter > 0 Then
+                Print(modFilecounter & " files renname successful.")
+                If Not IsQuiet Then
+                    undoOjb.savefile()
+                End If
+            Else
+                Print("======================")
+                Print("nothing match, exiting")
+            End If
         End If
 
     End Sub
 
 
-
     Private Class Undo
-
         Dim buff As String
-        Dim file As string
+        Dim file As String
 
-        Sub New(filename As String)
+        Sub New(ByVal filename As String)
             file = filename
         End Sub
 
-
-        Sub writeline(str As String)
+        Sub writeline(ByVal str As String)
             buff += str & vbCrLf
         End Sub
-
 
         Sub savefile()
             Dim batfilestream As IO.StreamWriter
@@ -210,9 +218,19 @@ Module MainModule
         Print("  /q		quiet mode (doesn't output undo file and prompt")
         Print("  /d		rename directories only")
         Print("  /f		rename files only")
+        Print("ver 1.1.0.12")
 
-        Print("")
-        Print(System.Reflection.Assembly.GetCallingAssembly.GetName.FullName)
+
+        If System.Deployment.Application.ApplicationDeployment.IsNetworkDeployed Then
+
+            Print("")
+            Print("")
+            Print(System.Deployment.Application.ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString())
+        Else
+
+        End If
+
+
 
         End
     End Sub
